@@ -10,32 +10,9 @@ module Nilpart
     attr_accessor :my_api_key
     attr_accessor :production # prod / sandbox
 
+    #
     # +api_key+ your api_key
     # +mode+ "prod" for production / "sandbox" for sandbox
-    #
-    # np = Nilpart::Nilpart.new({ api_key: "machin", mode: "prod" })
-    # np.api_keys
-    # np.google_posts_search
-    #
-    # np.businesses_search({code: '197'}) # get business by code
-    # np.businesses_search.first.dig('businesses',0,'name') # nom du commerce
-    # np.businesses_search.first.dig('businesses',0,'city')
-    # np.businesses_search.first.dig('businesses',0,'zipcode')
-    # np.businesses_search.first.dig('businesses',0,'address2') # complément adresse
-    # np.businesses_search.first.dig('businesses',0,'address_details','street_type')
-    # np.businesses_search.first.dig('businesses',0,'address_details','street_name')
-    #
-    # np.businesses_search.first.dig('businesses',0,'contacts',0,'phone_numbers')
-    # np.businesses_search.first.dig('businesses',0,'contacts',0,'email')
-    #
-    # np.businesses_search.first.dig('businesses',0,'open_hours')
-    # np.businesses_search.first.dig('businesses',0,'open_hours','monday')
-    # np.businesses_search.first.dig('businesses',0,'open_hours','tuesday')
-    # np.businesses_search.first.dig('businesses',0,'open_hours','wednesday')
-    # np.businesses_search.first.dig('businesses',0,'open_hours','thursday')
-    # np.businesses_search.first.dig('businesses',0,'open_hours','friday')
-    # np.businesses_search.first.dig('businesses',0,'open_hours','saturday')
-    # np.businesses_search.first.dig('businesses',0,'open_hours','sunday')
     #
     def initialize(params)
       @my_api_key = params[:api_key]
