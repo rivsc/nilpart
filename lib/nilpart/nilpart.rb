@@ -1,5 +1,6 @@
 require_relative './version'
 require 'faraday'
+require 'faraday_middleware'
 require 'json'
 
 module Nilpart
@@ -8,19 +9,24 @@ module Nilpart
     SANDBOX_SERVER = "https://sandbox.api.partoo.co/v2/"
 
     attr_accessor :my_api_key
-    attr_accessor :production # prod / sandbox
+    attr_accessor :production
+    attr_accessor :conn
 
     #
     # +api_key+ your api_key
-    # +mode+ "prod" for production / "sandbox" for sandbox
+    # +mode+ "production" or "sandbox"
     #
     def initialize(params)
       @my_api_key = params[:api_key]
 
       raise ':api_key is required !' if @my_api_key.to_s.empty?
-      raise ':mode params must be "prod" or "sandbox"' unless ['prod', 'sandbox'].include?(params[:mode])
+      raise ':mode params must be "production" or "sandbox"' unless ['production', 'sandbox'].include?(params[:mode])
 
-      @production = params[:mode].to_s == 'prod'
+      @production = params[:mode].to_s == 'production'
+
+      @conn = Faraday.new do |f|
+        f.response :follow_redirects
+      end
     end
 
     def server_url
@@ -28,7 +34,7 @@ module Nilpart
     end
 
     def get_request(path, params = {})
-      response = Faraday.get("#{self.server_url}#{path}", params, { 'x-APIKey' => @my_api_key })
+      response = @conn.get("#{self.server_url}#{path}", params, { 'x-APIKey' => @my_api_key })
       if response.status != 200 # Faraday has not constante for status 200
         puts "#{__method__} : Path => #{path} : Status => #{response.status}"
       end
@@ -36,7 +42,7 @@ module Nilpart
     end
 
     def delete_request(path, params = {})
-      response = Faraday.delete("#{self.server_url}#{path}", params, { 'x-APIKey' => @my_api_key })
+      response = @conn.delete("#{self.server_url}#{path}", params, { 'x-APIKey' => @my_api_key })
       if response.status != 200 # Faraday has not constante for status 200
         puts "#{__method__} : Path => #{path} : Status => #{response.status}"
       end
@@ -44,7 +50,7 @@ module Nilpart
     end
 
     def post_request(path, body = {})
-      response = Faraday.post("#{self.server_url}#{path}", body.to_json, { 'x-APIKey' => @my_api_key, "Content-Type" => "application/json" })
+      response = @conn.post("#{self.server_url}#{path}", body.to_json, { 'x-APIKey' => @my_api_key, "Content-Type" => "application/json" })
       if response.status != 200 # Faraday has not constante for status 200
         puts "#{__method__} : Path => #{path} : Status => #{response.status}"
       end
@@ -52,7 +58,7 @@ module Nilpart
     end
 
     def put_request(path, body = {})
-      response = Faraday.put("#{self.server_url}#{path}", body.to_json, { 'x-APIKey' => @my_api_key, "Content-Type" => "application/json" })
+      response = @conn.put("#{self.server_url}#{path}", body.to_json, { 'x-APIKey' => @my_api_key, "Content-Type" => "application/json" })
       if response.status != 200 # Faraday has not constante for status 200
         puts "#{__method__} : Path => #{path} : Status => #{response.status}"
       end

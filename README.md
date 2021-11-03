@@ -5,7 +5,7 @@ You need a Partoo.co Api-Key.
 
 ## Initialize Nilpart
 
- np = Nilpart::Nilpart.new({ api_key: YOUR_API_KEY, mode: "prod" }) # mode must be 'prod' or 'sandbox'
+ np = Nilpart::Nilpart.new({ api_key: YOUR_API_KEY, mode: "production" }) # mode must be 'production' or 'sandbox'
 
 ## Example of data returned
 
