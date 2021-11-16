@@ -1,4 +1,4 @@
-require_relative "lib/nilpart/version"
+require_relative 'lib/nilpart/version'
 
 Gem::Specification.new do |s|
   s.name        = 'nilpart'
@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
   all_files     = `git ls-files`.split("\n").reject{ |filepath| filepath.start_with? 'test/' }
   s.files       = all_files
 
-  s.require_paths = ["lib/nilpart"]
+  s.require_paths = ["lib"]
 
   s.homepage    = 'https://rubygems.org/gems/nilpart'
   s.license     = 'MIT'
