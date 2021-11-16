@@ -1,4 +1,4 @@
-require_relative './version'
+#require_relative './version'
 require 'faraday'
 require 'faraday_middleware'
 require 'json'
